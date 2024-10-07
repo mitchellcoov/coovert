@@ -3,25 +3,50 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #d3e0d3;
+  --foreground: #4c2365;
+  --mablefont: #a079b5;
+
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #302438;
+    --foreground: #ffafc5;
+    --mablefont: #a079b5;
   }
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sacramento), cursive;
+}
+
+@layer base {
+
+  .bg-img {
+    @apply h-screen bg-[url('/love_you_more.jpg')] bg-cover bg-center bg-no-repeat;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@layer components {
+  .neonText {
+    color: #fff;
+    text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 21px #fff,
+      0 0 42px #ffafc5,
+      0 0 82px #ffafc5,
+      0 0 92px #ffafc5,
+      0 0 102px #ffafc5,
+      0 0 151px #ffafc5;
   }
 }

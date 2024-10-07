@@ -11,7 +11,18 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        mablefont: "var(--mablefont)",
+
       },
+      fontFamily: {
+        sacramento: ['var(--font-sacramento)'],
+      },
+      maxHeight: {
+        pictureFrame: "41rem"
+      },
+      inset: {
+        pictureFrame: "8.33333%"
+      }
     },
   },
   plugins: [],
