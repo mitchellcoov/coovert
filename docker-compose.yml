@@ -1,0 +1,68 @@
+services:
+  reverse-proxy:
+    image: traefik:v3.1
+    container_name: "traefik"
+    ports:
+      - "443:443"
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml
+      - ./traefik/dynamic-conf.yml/:/etc/traefik-dynamic/dynamic-conf.yml
+      - /etc/letsencrypt/live/coovert.ca/fullchain.pem:/letsencrypt/fullchain.pem
+      - /etc/letsencrypt/live/coovert.ca/privkey.pem:/letsencrypt/privkey.pem
+
+  coovert-site:
+    restart: on-failure
+    image: mitchellcoov346/coovert-site:1.0
+    ports:
+      - "81:3000"
+    container_name: coovert-site
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.coovert-site.entrypoints=web"
+      - "traefik.http.routers.coovert-site.rule=Host(`coovert.ca`)"
+      - "traefik.http.routers.coovert-site.middlewares=https-redirect@file"
+      - "traefik.http.routers.coovert-sites-tls.entrypoints=websecure"
+      - "traefik.http.routers.coovert-sites.rule=Host(`coovert.ca`)"
+      - "traefik.http.routers.coovert-sites.tls=true"
+      # - "traefik.http.routers.coovert-site.tls.domains[0].main=coovert.ca"
+      # - "traefik.http.routers.coovert-site.tls.domains[0].sans=*.coovert.ca,*.coovert.gay"
+      # - "traefik.services.coovert-site.loadBalancer.servers=http://localhost:81"
+
+
+  mitchell-site:
+    restart: on-failure
+    image: mitchellcoov346/mitchell-site:1.0
+    ports:
+      - "82:3000"
+    container_name: mitchell-site
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mitchell-site.entrypoints=web"
+      - "traefik.http.routers.mitchell-site.rule=Host(`mitchell.coovert.ca`)"
+      - "traefik.http.routers.mitchell-site.middlewares=https-redirect@file"
+      - "traefik.http.routers.mitchell-sites-tls.entrypoints=websecure"
+      - "traefik.http.routers.mitchell-sites.rule=Host(`mitchell.coovert.ca`)"
+      - "traefik.http.routers.mitchell-sites.tls=true"
+      # - "traefik.http.routers.mitchell-site.tls.domains[0].main=coovert.ca"
+      # - "traefik.http.routers.mitchell-site.tls.domains[0].sans=*.coovert.ca,*.coovert.gay"
+      # - "traefik.services.mitchell-site.loadBalancer.servers=http://localhost:82"
+
+  mable-site:
+    restart: on-failure
+    image: mitchellcoov346/mable-site:1.0
+    ports:
+      - "83:3000"
+    container_name: mable-site
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mable-site.entrypoints=web"
+      - "traefik.http.routers.mable-site.rule=Host(`mable.coovert.gay`)"
+      - "traefik.http.routers.mable-site.middlewares=https-redirect@file"
+      - "traefik.http.routers.mable-sites-tls.entrypoints=websecure"
+      - "traefik.http.routers.mable-sites.rule=Host(`mable.coovert.gay`)"
+      - "traefik.http.routers.mable-sites.tls=true"
+
+  

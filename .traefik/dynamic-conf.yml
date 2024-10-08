@@ -1,0 +1,17 @@
+http:
+  middlewares:
+    https-redirect:
+      redirectScheme:
+        scheme: https
+
+tls:
+  certificates:
+    - certFile: /letsencrypt/fullchain.pem
+      keyfile: /letsencrypt/privkey.pem
+      stores:
+        - default
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /letsencrypt/fullchain.pem
+        keyFile: /letsencrypt/privkey.pem
